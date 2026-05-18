@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html>
+{% extends "courses/base.html" %}
 
-<body>
+{% block content %}
     {% if course_list %}
-    <ul>
         {% for course in course_list %}
-        <li><a href="{% url 'courses:course_detail' course.id %} ">{{ course.name }}</a></li>
+            <li><a href="{% url 'courses:course_detail' course.id %}">{{ course.name }}</a></li>
         {% endfor %}
-    </ul>
     {% else %}
-    <p>Currently, no course is available!</p>
+        <p>No courses available</p>
     {% endif %}
-</body>
-
-</html>
+{% endblock %}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <nav>
+        {% if request.user.is_authenticated %}
+            <p>Welcome back, {{ request.user.username }}!</p>
+            <form method="POST" action="{% url 'users:logout' %}">
+                {% csrf_token %}
+                <button type="submit">Log Out</button>
+            </form>
+        {% else %}
+            <p>Welcome, Guest!</p>
+            <a href="{% url 'users:login' %}">Log In</a>
+        {% endif %}
+    </nav>
+
+    {% block content %}{% endblock %}
+</body>
+</html>
