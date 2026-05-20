@@ -4,4 +4,11 @@ from .models import User
 
 # Register your models here.
 
-admin.site.register(User, UserAdmin)
+class CustomUserAdmin(UserAdmin):
+    fieldsets = UserAdmin.fieldsets + (
+        ('Custom Permissions', {
+            'fields': ('is_instructor',),
+        }),
+    )
+
+admin.site.register(User, CustomUserAdmin)

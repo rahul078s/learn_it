@@ -1,10 +1,10 @@
 {% extends "courses/base.html" %}
 
 {% block content %}
-    <form method="post" action="{% url 'courses:enroll' course.id %}">
-        {% csrf_token %}
-        <h1>{{ course.name }}</h1>
-        <h3>{{ course.description }}</h3>
-        <button type="submit">Enroll Now</button>
-    </form>
+<form method="post" action="{% url 'courses:enroll' course.id %}">
+    {% csrf_token %}
+    <h1>{{ course.name }}</h1>
+    <h3>{{ course.description }}</h3>
+    <button type="submit">Enroll Now</button>
+</form>
 {% endblock %}

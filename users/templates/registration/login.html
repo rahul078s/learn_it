@@ -6,6 +6,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Login</button>
+            <a href="{% url 'users:register' %}" style="display: inline-block; padding: 5px 10px; background-color: #ddd; color: black; text-decoration: none; border-radius: 3px;">Sign Up</a>
         </form>
     </body>
 </html>

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .models import Course, Enrollment
+from django.contrib import messages
 # Create your views here.
 
 def home(request):
@@ -24,5 +25,10 @@ def enroll(request, course_id):
 
     if not already_enrolled:
         Enrollment.objects.create(user=request.user, course=course)
+
+        # Add a temporary success message to the request
+        messages.success(request, f"You have successfully enrolled in {course.name}!")
+    else:
+        messages.warning(request, "You are already enrolled in this course.")
 
     return redirect('courses:course_detail', course_id=course.id)
