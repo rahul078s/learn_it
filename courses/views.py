@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.views.decorators.http import require_POST
 from .models import Course, Enrollment
 from django.contrib import messages
 
 from .forms import CourseForm
+from django.urls import reverse_lazy
 # Create your views here.
 
 def home(request):
@@ -51,3 +52,20 @@ class CourseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         form.instance.instructor = self.request.user
         return super().form_valid(form)
+    
+class CourseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Course
+    form_class = CourseForm
+    template_name_suffix = '_update_form'
+
+    def test_func(self):
+        course = self.get_object()
+        return course.instructor == self.request.user
+    
+class CourseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Course
+    success_url = reverse_lazy('courses:home')
+
+    def test_func(self):
+        course = self.get_object()
+        return course.instructor == self.request.user

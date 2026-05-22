@@ -5,6 +5,10 @@
     {% csrf_token %}
     <h1>{{ course.name }}</h1>
     <h3>{{ course.description }}</h3>
+    {% if request.user == course.instructor %}
+        <a href="{% url 'courses:edit_course' course.id %}">Edit</a>
+        <a href="{% url 'courses:delete_course' course.id %}">Delete</a>
+    {% endif %}
     <button type="submit">Enroll Now</button>
 </form>
 {% endblock %}
