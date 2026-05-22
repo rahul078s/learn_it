@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import CreateView
+
 from django.views.decorators.http import require_POST
 from .models import Course, Enrollment
 from django.contrib import messages
+
+from .forms import CourseForm
 # Create your views here.
 
 def home(request):
@@ -32,3 +37,17 @@ def enroll(request, course_id):
         messages.warning(request, "You are already enrolled in this course.")
 
     return redirect('courses:course_detail', course_id=course.id)
+
+class CourseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Course
+    form_class = CourseForm
+    template_name = 'courses/create_course.html'
+
+    # Verify if user is an instructor
+    def test_func(self):
+        return self.request.user.is_instructor
+    
+    # Attach instructor to the course
+    def form_valid(self, form):
+        form.instance.instructor = self.request.user
+        return super().form_valid(form)

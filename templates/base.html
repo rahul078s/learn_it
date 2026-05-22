@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <nav>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_instructor %}
+                <a href="{% url 'courses:create_course' %}" style="display: inline-block; 
+                    background-color: #007bff; 
+                    color: #ffffff; 
+                    padding: 10px 20px; 
+                    text-decoration: none; 
+                    font-family: sans-serif; 
+                    font-size: 16px; 
+                    font-weight: 500; 
+                    border-radius: 4px; 
+                    border: 1px solid transparent; 
+                    text-align: center; 
+                    cursor: pointer;">Create Course
+                </a>
+            {% endif %}
+            <form method="POST" action="{% url 'users:logout' %}" style="display: inline-block;">
+                {% csrf_token %}
+                <button type="submit">Log Out</button>
+            </form>
+        {% else %}
+            <p>Welcome, Guest!</p>
+            <a href="{% url 'users:register' %}">Sign Up</a>
+            <a href="{% url 'users:login' %}">Log In</a>
+        {% endif %}
+    </nav>
+
+    {% block content %}{% endblock %}
+</body>
+
+</html>
