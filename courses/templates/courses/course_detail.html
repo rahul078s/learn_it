@@ -9,6 +9,11 @@
         <a href="{% url 'courses:edit_course' course.id %}">Edit</a>
         <a href="{% url 'courses:delete_course' course.id %}">Delete</a>
     {% endif %}
-    <button type="submit">Enroll Now</button>
+    
+    {% if request.user.is_authenticated %}
+        <button type="submit">Enroll Now</button>
+    {% else %}
+        <a href="{% url 'users:login' %}?next={{ request.path }}">Login to Enroll</a>
+    {% endif %}
 </form>
 {% endblock %}

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView
 
 from django.views.decorators.http import require_POST
 from .models import Course, Enrollment
@@ -24,15 +25,14 @@ def detail(request, course_id):
 def enroll(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
 
-    already_enrolled = Enrollment.objects.filter(
-        user = request.user,
-        course = course
-    ).exists()
+    # get_or_create returns the two things a Model Instance and a True/False
+    enrollment, created = Enrollment.objects.get_or_create(
+        user=request.user, 
+        course=course
+    )
 
-    if not already_enrolled:
-        Enrollment.objects.create(user=request.user, course=course)
-
-        # Add a temporary success message to the request
+    # Check the flag to trigger messages!
+    if created:
         messages.success(request, f"You have successfully enrolled in {course.name}!")
     else:
         messages.warning(request, "You are already enrolled in this course.")
@@ -69,3 +69,11 @@ class CourseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         course = self.get_object()
         return course.instructor == self.request.user
+    
+class StudentDashboardView(LoginRequiredMixin, ListView):
+    model = Course
+    template_name = "courses/student_dashboard.html"
+    context_object_name = 'enrolled_courses'
+
+    def get_queryset(self):
+        return Course.objects.filter(enrollment__user=self.request.user)
