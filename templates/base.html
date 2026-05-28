@@ -27,16 +27,19 @@
                     text-align: center; 
                     cursor: pointer;">Create Course
                 </a>
+                <a href="{% url 'courses:instructor_dashboard' %}">My Courses</a>
             {% else %}
                 <a href="{% url 'courses:student_dashboard' %}">My Learnings</a>
             {% endif %}
+
+            <span>{{ request.user.username }}</span>
 
             <form method="POST" action="{% url 'users:logout' %}" style="display: inline-block;">
                 {% csrf_token %}
                 <button type="submit">Log Out</button>
             </form>
         {% else %}
-            <p>Welcome, Guest!</p>
+            <span>Guest!</span>
             <a href="{% url 'users:register' %}">Sign Up</a>
             <a href="{% url 'users:login' %}">Log In</a>
         {% endif %}

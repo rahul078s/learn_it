@@ -10,7 +10,8 @@ from django.contrib import messages
 
 from .forms import CourseForm
 from django.urls import reverse_lazy
-# Create your views here.
+
+from django.db.models import Count
 
 def home(request):
     course_list = Course.objects.all()
@@ -91,10 +92,15 @@ class StudentDashboardView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Course.objects.filter(enrollments__user=self.request.user)
     
-class InstructorDashboardView(LoginRequiredMixin, ListView):
+class InstructorDashboardView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Course
     template_name = "courses/instructor_dashboard.html"
     context_object_name = "my_courses"
 
+    def test_func(self):
+        return self.request.user.is_instructor
+
     def get_queryset(self):
-        return Course.objects.filter(instructor=self.request.user)
+        return Course.objects.filter(instructor=self.request.user).annotate(
+            total_students = Count('enrollments')
+        )
