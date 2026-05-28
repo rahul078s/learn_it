@@ -76,4 +76,4 @@ class StudentDashboardView(LoginRequiredMixin, ListView):
     context_object_name = 'enrolled_courses'
 
     def get_queryset(self):
-        return Course.objects.filter(enrollment__user=self.request.user)
+        return Course.objects.filter(enrollments__user=self.request.user)
