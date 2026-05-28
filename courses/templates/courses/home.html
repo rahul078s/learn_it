@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if course_list %}
-        {% for course in course_list %}
-            <li><a href="{% url 'courses:course_detail' course.id %}">{{ course.name }}</a></li>
-        {% endfor %}
-    {% else %}
-        <p>No courses available</p>
-    {% endif %}
+<form method="GET" action="">
+    <input type="text" name="q" placeholder="Search for courses...">
+    <button type="submit">Search</button>
+</form>
+
+{% if course_list %}
+    {% for course in course_list %}
+        <li><a href="{% url 'courses:course_detail' course.id %}">{{ course.name }}</a></li>
+    {% endfor %}
+{% else %}
+    <p>No courses found.</p>
+{% endif %}
 {% endblock %}

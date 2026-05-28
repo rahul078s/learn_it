@@ -13,9 +13,20 @@ from django.urls import reverse_lazy
 
 from django.db.models import Count
 
-def home(request):
-    course_list = Course.objects.all()
-    return render(request, "courses/home.html", {"course_list": course_list})
+class CourseListView(ListView):
+    model = Course
+    template_name = 'courses/home.html'
+    context_object_name = 'course_list'
+
+    def get_queryset(self):
+        queryset = Course.objects.all()
+        
+        search_query = self.request.GET.get('q')
+
+        if search_query:
+            queryset = queryset.filter(name__icontains=search_query)
+
+        return queryset
 
 class CourseDetailView(DetailView):
     model = Course
