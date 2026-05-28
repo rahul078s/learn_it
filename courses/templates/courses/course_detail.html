@@ -11,7 +11,9 @@
     {% endif %}
     
     {% if request.user.is_authenticated %}
-        <button type="submit">Enroll Now</button>
+        {% if not is_enrolled %}
+            <button type="submit">Enroll Now</button>
+        {% endif %}
     {% else %}
         <a href="{% url 'users:login' %}?next={{ request.path }}">Login to Enroll</a>
     {% endif %}

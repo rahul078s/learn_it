@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from django.views.decorators.http import require_POST
 from .models import Course, Enrollment
@@ -16,9 +16,22 @@ def home(request):
     course_list = Course.objects.all()
     return render(request, "courses/home.html", {"course_list": course_list})
 
-def detail(request, course_id):
-    course = get_object_or_404(Course, pk=course_id)
-    return render(request, "courses/course_detail.html", {"course": course})
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = "courses/course_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+            context['is_enrolled'] = Enrollment.objects.filter(
+                user = self.request.user,
+                course = self.object
+            ).exists()
+        else:
+            context['is_enrolled'] = False
+
+        return context   
 
 @login_required
 @require_POST
@@ -37,7 +50,7 @@ def enroll(request, course_id):
     else:
         messages.warning(request, "You are already enrolled in this course.")
 
-    return redirect('courses:course_detail', course_id=course.id)
+    return redirect('courses:course_detail', pk=course.id)
 
 class CourseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Course
@@ -77,3 +90,11 @@ class StudentDashboardView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Course.objects.filter(enrollments__user=self.request.user)
+    
+class InstructorDashboardView(LoginRequiredMixin, ListView):
+    model = Course
+    template_name = "courses/instructor_dashboard.html"
+    context_object_name = "my_courses"
+
+    def get_queryset(self):
+        return Course.objects.filter(instructor=self.request.user)

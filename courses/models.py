@@ -14,7 +14,7 @@ class Course(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('courses:course_detail', kwargs={'course_id': self.id})
+        return reverse('courses:course_detail', kwargs={'pk': self.id})
 
 class Enrollment(models.Model):
     enroll_date = models.DateField(default=date.today)

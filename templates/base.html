@@ -3,6 +3,7 @@
 
 <body>
     <nav>
+        <a href="{% url 'courses:home' %}">Home</a>
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -26,7 +27,10 @@
                     text-align: center; 
                     cursor: pointer;">Create Course
                 </a>
+            {% else %}
+                <a href="{% url 'courses:student_dashboard' %}">My Learnings</a>
             {% endif %}
+
             <form method="POST" action="{% url 'users:logout' %}" style="display: inline-block;">
                 {% csrf_token %}
                 <button type="submit">Log Out</button>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>My Enrollements</h1>
+<h1>My Learnings</h1>
 <ul>
     {% for course in enrolled_courses %}
     <li>
@@ -10,7 +10,7 @@
         </a>
     </li>
     {% empty %}
-    <p>You are not enrolled in any courses yet!</p>
+        <p>You are not enrolled in any courses yet!</p>
     {% endfor %}
 </ul>
 {% endblock %}
