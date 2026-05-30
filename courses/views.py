@@ -5,11 +5,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 
 from django.views.decorators.http import require_POST
-from .models import Course, Enrollment
+from .models import Course, Module, Lesson, Enrollment
 from django.contrib import messages
 
-from .forms import CourseForm
-from django.urls import reverse_lazy
+from .forms import CourseForm, ModuleForm
+from django.urls import reverse_lazy, reverse
 
 from django.db.models import Count
 
@@ -115,3 +115,18 @@ class InstructorDashboardView(LoginRequiredMixin, UserPassesTestMixin, ListView)
         return Course.objects.filter(instructor=self.request.user).annotate(
             total_students = Count('enrollments')
         )
+
+class ModuleCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Module
+    form_class = ModuleForm
+    template_name = 'courses/module_create.html'
+
+    def get_course(self):
+        return get_object_or_404(Course, pk=self.kwargs['course_pk'])
+
+    def test_func(self):
+        return self.get_course().instructor == self.request.user
+
+    def form_valid(self, form):
+        form.instance.course = self.get_course()
+        return super().form_valid(form)
