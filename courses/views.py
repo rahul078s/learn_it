@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from .models import Course, Module, Lesson, Enrollment
 from django.contrib import messages
 
-from .forms import CourseForm, ModuleForm
+from .forms import CourseForm, ModuleForm, LessonForm
 from django.urls import reverse_lazy, reverse
 
 from django.db.models import Count
@@ -130,3 +130,22 @@ class ModuleCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         form.instance.course = self.get_course()
         return super().form_valid(form)
+
+class LessonCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Lesson
+    form_class = LessonForm
+    template_name = 'courses/lesson_create.html'
+
+    def get_course(self):
+        return get_object_or_404(Course, pk=self.kwargs['course_pk'])
+    
+    def get_module(self):
+        return get_object_or_404(Module, pk=self.kwargs['module_pk'], course=self.get_course())
+    
+    def test_func(self):
+        return self.get_course().instructor == self.request.user
+    
+    def form_valid(self, form):
+        form.instance.module = self.get_module()
+        return super().form_valid(form)
+    

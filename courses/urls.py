@@ -12,4 +12,5 @@ urlpatterns = [
     path("enrolled/", views.StudentDashboardView.as_view(), name="student_dashboard"),
     path("mycourses/", views.InstructorDashboardView.as_view(), name="instructor_dashboard"),
     path("<int:course_pk>/modules/create/", views.ModuleCreateView.as_view(), name='create_module'),
+    path("<int:course_pk>/modules/<int:module_pk>/lessons/create/", views.LessonCreateView.as_view(), name='create_lesson'),
 ]

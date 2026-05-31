@@ -43,6 +43,9 @@ class Lesson(models.Model):
 
     def __str__(self):
         return f"{self.order}. {self.title}"
+    
+    def get_absolute_url(self):
+        return reverse('courses:course_detail', kwargs={'pk': self.module.course.id})
 
 class Enrollment(models.Model):
     enroll_date = models.DateField(default=date.today)
