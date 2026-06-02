@@ -3,7 +3,7 @@ from . import views
 
 app_name = "courses"
 urlpatterns = [
-    path("", views.CourseListView.as_view(), name="home"),
+    path("courses/", views.course_list_api, name="api_course_list"),
     path("<int:pk>/", views.CourseDetailView.as_view(), name="course_detail"),
     path("<int:course_id>/enroll/", views.enroll, name="enroll"),
     path("create/", views.CourseCreateView.as_view(), name='create_course'),

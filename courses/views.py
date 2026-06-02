@@ -13,20 +13,40 @@ from django.urls import reverse_lazy, reverse
 
 from django.db.models import Count
 
-class CourseListView(ListView):
-    model = Course
-    template_name = 'courses/home.html'
-    context_object_name = 'course_list'
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework.response import Response
+from .serializers import CourseSerializer
 
-    def get_queryset(self):
-        queryset = Course.objects.all()
-        
-        search_query = self.request.GET.get('q')
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def course_list_api(request):
+    if request.method == 'GET':
+        course = Course.objects.all()
+        serializer = CourseSerializer(course, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if search_query:
-            queryset = queryset.filter(name__icontains=search_query)
+""" class CourseListView(ListView):
+        model = Course
+        template_name = 'courses/home.html'
+        context_object_name = 'course_list'
 
-        return queryset
+        def get_queryset(self):
+            queryset = Course.objects.all()
+            
+            search_query = self.request.GET.get('q')
+
+            if search_query:
+                queryset = queryset.filter(name__icontains=search_query)
+
+            return queryset """
 
 class CourseDetailView(DetailView):
     model = Course
