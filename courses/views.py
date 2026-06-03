@@ -16,11 +16,14 @@ from django.db.models import Count
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework import status
+from django.http import HttpResponse
 from rest_framework.response import Response
 from .serializers import CourseSerializer
+from courses import serializers
 
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@api_view(['GET', 'POST'])
 def course_list_api(request):
+    
     if request.method == 'GET':
         course = Course.objects.all()
         serializer = CourseSerializer(course, many=True)
@@ -32,6 +35,29 @@ def course_list_api(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET', 'PUT', 'DELETE'])
+def course_detail_api(request, pk):
+    try:
+        course = Course.objects.get(pk=pk)
+    except Course.DoesNotExist:
+        return HttpResponse(status=404)
+    
+    if request.method == 'GET':
+        serializer = CourseSerializer(course)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = CourseSerializer(course, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        course.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 """ class CourseListView(ListView):
         model = Course
@@ -48,22 +74,22 @@ def course_list_api(request):
 
             return queryset """
 
-class CourseDetailView(DetailView):
-    model = Course
-    template_name = "courses/course_detail.html"
+''' class CourseDetailView(DetailView):
+        model = Course
+        template_name = "courses/course_detail.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
 
-        if self.request.user.is_authenticated:
-            context['is_enrolled'] = Enrollment.objects.filter(
-                user = self.request.user,
-                course = self.object
-            ).exists()
-        else:
-            context['is_enrolled'] = False
+            if self.request.user.is_authenticated:
+                context['is_enrolled'] = Enrollment.objects.filter(
+                    user = self.request.user,
+                    course = self.object
+                ).exists()
+            else:
+                context['is_enrolled'] = False
 
-        return context   
+            return context '''
 
 @login_required
 @require_POST
