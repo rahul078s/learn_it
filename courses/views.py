@@ -14,12 +14,14 @@ from django.urls import reverse_lazy, reverse
 from django.db.models import Count
 
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.http import HttpResponse
 from rest_framework.response import Response
-from .serializers import CourseSerializer
+from .serializers import CourseSerializer, EnrollmentSerializer
 from courses import serializers
+
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(['GET', 'POST'])
 def course_list_api(request):
@@ -57,6 +59,29 @@ def course_detail_api(request, pk):
     elif request.method == 'DELETE':
         course.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def enroll_in_course_api(request):
+    course_id = request.data.get('course')
+
+    already_enrolled = Enrollment.objects.filter(
+        user = request.user,
+        course_id = course_id
+    ).exists()
+
+    if already_enrolled:
+        return Response(
+            {'detail': 'Already enrolled in this course'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    serializer = EnrollmentSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 """ class CourseListView(ListView):
