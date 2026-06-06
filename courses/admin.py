@@ -12,14 +12,16 @@ class LessonInline(admin.TabularInline):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'description']
     inlines = [ModuleInline]
 
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title']
     inlines = [LessonInline]
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['id', 'title']
 
 admin.site.register(Enrollment)
