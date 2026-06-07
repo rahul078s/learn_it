@@ -1,3 +1,5 @@
+from webbrowser import get
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -18,7 +20,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.http import HttpResponse
 from rest_framework.response import Response
-from .serializers import CourseSerializer, EnrollmentSerializer
+from .serializers import CourseSerializer, EnrollmentSerializer, LessonSerializer, ModuleSerializer
 from courses import serializers
 
 from rest_framework.permissions import IsAuthenticated
@@ -83,6 +85,98 @@ def enroll_in_course_api(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def module_list_api(request):
+    if request.method == 'GET':
+        modules = Module.objects.all()
+        serializer = ModuleSerializer(modules, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        course_id = request.data.get('course')
+        course = get_object_or_404(Course, pk=course_id)
+
+        # Verify if the instructor owns the course
+        if course.instructor != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        serializer = ModuleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(course=course)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def module_detail_api(request, pk):
+    module = get_object_or_404(Module, pk=pk)
+
+    if request.method == 'GET':
+        serializer = ModuleSerializer(module)
+        return Response(serializer.data)
+
+    # Verify instructor
+    if module.course.instructor != request.user:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    if request.method == 'PUT':
+        serializer = ModuleSerializer(module, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        module.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def lesson_list_api(request):
+    if request.method == 'GET':
+        lesson = Lesson.objects.all()
+        serializer = LessonSerializer(lesson, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    elif request.method == 'POST':
+        module_id = request.data.get('module')
+        module = get_object_or_404(Module, pk=module_id)
+
+        # Verify if the instructor owns the course
+        if module.course.instructor != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        serializer = LessonSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(module=module)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def lesson_detail_api(request, pk):
+    lesson = get_object_or_404(Lesson, pk=pk)
+
+    if request.method == 'GET':
+        serializer = LessonSerializer(lesson)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # Verify instructor before update and delete
+    if lesson.module.course.instructor != request.user:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    if request.method == 'PUT':
+        lesson = get_object_or_404(Lesson, pk=pk)
+        serializer = LessonSerializer(lesson, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        lesson.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 """ class CourseListView(ListView):
         model = Course
@@ -116,24 +210,24 @@ def enroll_in_course_api(request):
 
             return context '''
 
-@login_required
-@require_POST
-def enroll(request, course_id):
-    course = get_object_or_404(Course, pk=course_id)
+''' @login_required
+    @require_POST
+    def enroll(request, course_id):
+        course = get_object_or_404(Course, pk=course_id)
 
-    # get_or_create returns the two things a Model Instance and a True/False
-    enrollment, created = Enrollment.objects.get_or_create(
-        user=request.user, 
-        course=course
-    )
+        # get_or_create returns the two things a Model Instance and a True/False
+        enrollment, created = Enrollment.objects.get_or_create(
+            user=request.user, 
+            course=course
+        )
 
-    # Check the flag to trigger messages!
-    if created:
-        messages.success(request, f"You have successfully enrolled in {course.name}!")
-    else:
-        messages.warning(request, "You are already enrolled in this course.")
+        # Check the flag to trigger messages!
+        if created:
+            messages.success(request, f"You have successfully enrolled in {course.name}!")
+        else:
+            messages.warning(request, "You are already enrolled in this course.")
 
-    return redirect('courses:course_detail', pk=course.id)
+        return redirect('courses:course_detail', pk=course.id) '''
 
 class CourseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Course
