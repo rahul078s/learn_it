@@ -63,7 +63,6 @@ def course_detail_api(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def enroll_in_course_api(request):
     course_id = request.data.get('course')
 
@@ -86,7 +85,6 @@ def enroll_in_course_api(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
 def module_list_api(request):
     if request.method == 'GET':
         modules = Module.objects.all()
@@ -107,7 +105,6 @@ def module_list_api(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])
 def module_detail_api(request, pk):
     module = get_object_or_404(Module, pk=pk)
 
@@ -131,7 +128,6 @@ def module_detail_api(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
 def lesson_list_api(request):
     if request.method == 'GET':
         lesson = Lesson.objects.all()
@@ -153,7 +149,6 @@ def lesson_list_api(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])
 def lesson_detail_api(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
 
