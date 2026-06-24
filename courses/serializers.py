@@ -1,4 +1,5 @@
 from dataclasses import field
+from os import read
 
 from rest_framework import serializers
 from .models import Course, Enrollment, Module, Lesson
@@ -26,7 +27,9 @@ class CourseSerializer(serializers.ModelSerializer):
         read_only = ['id']
 
 class EnrollmentSerializer(serializers.ModelSerializer):
+    course_title = serializers.CharField(source='course.name', read_only=True)
+    course_description = serializers.CharField(source='course.description', read_only=True)
     class Meta:
         model = Enrollment
-        fields = ['id', 'enroll_date', 'user', 'course']
+        fields = ['id', 'enroll_date', 'user', 'course', 'course_title', 'course_description']
         read_only_fields = ['id', 'user', 'enroll_date']
