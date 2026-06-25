@@ -4,7 +4,7 @@ import AuthContext from "../context/AuthContext";
 
 export default function Navbar() {
     const { user, logout } = useContext(AuthContext);
-    const navigate = useNavigate;
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         logout();
@@ -23,7 +23,7 @@ export default function Navbar() {
             {/* Middle Section */}
             <div style={styles.navLinks}>
                 <Link to='/home' style={styles.link}>Home</Link>
-                <Link to='/courses' state={styles.link}>Courses</Link>
+                <Link to='/courses' style={styles.link}>Courses</Link>
 
                 {/* Render My courses only if the user is Authenticated */}
                 {user && (

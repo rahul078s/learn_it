@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import StudentDashboard from './pages/StudentDashboard';
+import CourseCatalog from './pages/CourseCatalog';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 
@@ -15,7 +16,8 @@ export default function App() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Home />} />
-                <Route path='/my-courses' element={
+                <Route path="/courses" element={<CourseCatalog />}/>
+                <Route path='/my-learning' element={
                     <ProtectedRoute>
                         <StudentDashboard />
                     </ProtectedRoute>

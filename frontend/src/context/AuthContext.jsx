@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from 'jwt-decode';
 import api from '../api/axios';
-    import { Children } from "react";
 
 // Blank context or the Global memory box
 const AuthContext = createContext();
