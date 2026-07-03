@@ -16,11 +16,13 @@ export default function App() {
         <BrowserRouter>
             <Navbar />
             <Routes>
-                <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/courses" element={<CourseCatalog />}/>
                 <Route path="/courses/:id" element={<CourseDetail />}/>
+
+                {/* Private Routes */}
                 <Route path='/my-learning' element={
                     <ProtectedRoute>
                         <StudentDashboard />
