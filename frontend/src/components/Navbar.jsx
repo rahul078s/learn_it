@@ -16,13 +16,13 @@ export default function Navbar() {
             {/* Left Section */}
             <div>
                 <Link to="/" style={styles.logo}>
-                    <span style={styles.logoIcon}>📖</span> LearnHub
+                    <span style={styles.logoIcon}>📖</span> LearnIT
                 </Link>
             </div>
 
             {/* Middle Section */}
             <div style={styles.navLinks}>
-                <Link to='/home' style={styles.link}>Home</Link>
+                <Link to='/' style={styles.link}>Home</Link>
                 <Link to='/courses' style={styles.link}>Courses</Link>
 
                 {/* Render My courses only if the user is Authenticated */}

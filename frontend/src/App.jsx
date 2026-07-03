@@ -6,21 +6,18 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import CourseDetail from './pages/CourseDetail';
 import Register from './pages/Register';
-
-function Home() {
-    return <h1>Welcome to the Learn It!</h1>;
-}
+import Home from './pages/Home';
 
 export default function App() {
     return (
         <BrowserRouter>
             <Navbar />
             <Routes>
+                <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/" element={<Home />} />
-                <Route path="/courses" element={<CourseCatalog />}/>
-                <Route path="/courses/:id" element={<CourseDetail />}/>
+                <Route path="/courses" element={<CourseCatalog />} />
+                <Route path="/courses/:id" element={<CourseDetail />} />
 
                 {/* Private Routes */}
                 <Route path='/my-learning' element={
