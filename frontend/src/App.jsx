@@ -5,6 +5,7 @@ import CourseCatalog from './pages/CourseCatalog';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import CourseDetail from './pages/CourseDetail';
+import Register from './pages/Register';
 
 function Home() {
     return <h1>Welcome to the Learn It!</h1>;
@@ -16,6 +17,7 @@ export default function App() {
             <Navbar />
             <Routes>
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/courses" element={<CourseCatalog />}/>
                 <Route path="/courses/:id" element={<CourseDetail />}/>

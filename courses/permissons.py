@@ -1,8 +1,8 @@
 from rest_framework import permissions
 
 class IsInstructorOrReadOnly(permissions.BasePermission):
-    ''' Custom permissions to allow anyone to read and only instructor can 
-        create/edit.    
+    ''' Custom permissions to allow anyone to read and only instructor can
+        create/edit.
     '''
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
