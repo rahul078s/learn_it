@@ -56,9 +56,17 @@ export default function CourseDetail() {
                 ← Back to Catalog
             </button>
             
-            <div style={{ backgroundColor: '#f3f4f6', height: '300px', borderRadius: '8px', marginBottom: '20px' }}>
-                {/* Hero Image Placeholder */}
-            </div>
+            {course.thumbnail ? (
+                <img 
+                    src={course.thumbnail} 
+                    alt={course.title} 
+                    style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '8px', marginBottom: '20px' }} 
+                />
+            ) : (
+                <div style={{ backgroundColor: '#f3f4f6', height: '300px', borderRadius: '8px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }}>
+                    No Image Available
+                </div>
+            )}
 
             <h1 style={{ fontSize: '32px', marginBottom: '10px' }}>{course.title}</h1>
             <p style={{ fontSize: '20px', fontWeight: 'bold', color: '#2563eb', marginBottom: '20px' }}>

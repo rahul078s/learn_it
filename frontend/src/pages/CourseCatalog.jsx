@@ -38,8 +38,18 @@ export default function CourseCatalog() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
                 {courses.map((course) => (
                     <div key={course.id} style={{ border: '1px solid #e0e0e0', borderRadius: '8px', padding: '20px', backgroundColor: 'white' }}>
-                        {/* Add images in below div later if needed */}
-                        <div style={{ height: '150px', backgroundColor: '#f3f4f6', borderRadius: '4px', marginBottom: '15px' }}></div>
+                        {course.thumbnail ? (
+                            <img 
+                                src={course.thumbnail} 
+                                alt={course.title} 
+                                style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '4px', marginBottom: '15px' }} 
+                            />
+                        ) : (
+                            // Fallback if the instructor hasn't uploaded a thumbnail yet
+                            <div style={{ height: '150px', backgroundColor: '#f3f4f6', borderRadius: '4px', marginBottom: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }}>
+                                No Image Available
+                            </div>
+                        )}
 
                         <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', color: '#1a1a1a' }}>{course.name}</h3>
                         <p style={{ color: '#555', fontSize: '14px', marginBottom: '15px', lineHeight: '1.5' }}>
