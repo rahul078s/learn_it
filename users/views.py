@@ -7,6 +7,9 @@ from .serializers import RegisterSerializer
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
+
 '''
 def register(request):
     if request.method == 'POST':
@@ -32,3 +35,6 @@ def register_api_view(request):
                 status=status.HTTP_201_CREATED
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

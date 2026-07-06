@@ -11,7 +11,7 @@ class LessonInline(admin.TabularInline):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'description']
+    list_display = ['id', 'title', 'description']
     inlines = [ModuleInline]
 
 @admin.register(Module)

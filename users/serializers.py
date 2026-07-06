@@ -1,5 +1,10 @@
+from re import T
+import token
+
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 User = get_user_model()
 
@@ -27,3 +32,13 @@ class RegisterSerializer(serializers.ModelSerializer):
             is_instructor=validated_data.get('is_instructor', False)
         )
         return user
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        token['username'] = user.username
+        token['is_instructor'] = user.is_instructor
+
+        return token

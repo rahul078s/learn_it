@@ -6,13 +6,14 @@ from django.urls import reverse
 
 # Create your models here.
 class Course(models.Model):
-    name = models.CharField(max_length=50)
+    title = models.CharField(max_length=50)
     description = models.TextField(max_length=300)
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     instructor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     thumbnail = models.ImageField(upload_to='course_thumbnails/', null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.title
     
     def get_absolute_url(self):
         return reverse('courses:course_detail', kwargs={'pk': self.id})

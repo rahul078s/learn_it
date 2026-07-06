@@ -35,6 +35,16 @@ class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CourseSerializer
     permission_classes = [IsInstructorOrReadOnly]
 
+class InstructorCourseListView(generics.ListCreateAPIView):
+    serializer_class = CourseSerializer
+    permission_classes = [IsInstructorOrReadOnly]
+
+    def get_queryset(self):
+        return Course.objects.filter(instructor=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(instructor=self.request.user)
+
 @api_view(['GET'])
 def enrolled_courses_api(request):
     my_enrollments = Enrollment.objects.filter(user=request.user)

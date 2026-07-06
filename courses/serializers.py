@@ -20,14 +20,14 @@ class ModuleSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     modules = ModuleSerializer(many=True, read_only=True)
-    
+    instructor = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Course
-        fields = [ 'id' ,'name', 'description', 'thumbnail', 'instructor', 'modules']
+        fields = [ 'id' ,'title', 'description', 'price', 'instructor', 'thumbnail', 'modules']
         read_only = ['id']
 
 class EnrollmentSerializer(serializers.ModelSerializer):
-    course_title = serializers.CharField(source='course.name', read_only=True)
+    course_title = serializers.CharField(source='course.title', read_only=True)
     course_description = serializers.CharField(source='course.description', read_only=True)
     class Meta:
         model = Enrollment
