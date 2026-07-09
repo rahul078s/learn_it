@@ -86,11 +86,9 @@ def module_list_api(request):
         course_id = request.data.get('course')
         course = get_object_or_404(Course, pk=course_id)
 
-        """
-        # Verify if the instructor owns the course
         if course.instructor != request.user:
             return Response(status=status.HTTP_403_FORBIDDEN)
-        """
+
         serializer = ModuleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(course=course)

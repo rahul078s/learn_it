@@ -9,6 +9,7 @@ import CourseDetail from './pages/CourseDetail';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import InstructorRoute from './components/InstructorRoute';
+import CourseManager from './pages/CourseManager';
 
 export default function App() {
     return (
@@ -28,11 +29,8 @@ export default function App() {
                     </ProtectedRoute>
                 } />
 
-                <Route path='/instructor' element={
-                    <InstructorRoute>
-                        <InstructorDashboard />
-                    </InstructorRoute>
-                } />
+                <Route path="/instructor" element={<InstructorRoute><InstructorDashboard /></InstructorRoute>} />
+                <Route path="/instructor/courses/:id" element={<InstructorRoute><CourseManager /></InstructorRoute>} />
             </Routes>
         </BrowserRouter>
     );

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../api/axios";
+import { Link } from "react-router-dom";
 
 export default function InstructorDashboard() {
     const [myCourses, setMyCourses] = useState([]);
@@ -140,7 +141,11 @@ export default function InstructorDashboard() {
                                         <div style={{ width: '80px', height: '80px', backgroundColor: '#f3f4f6', borderRadius: '4px' }}></div>
                                     )}
                                     <div>
-                                        <h3 style={{ margin: '0 0 5px 0', fontSize: '18px' }}>{course.title}</h3>
+                                        <h3 style={{ margin: '0 0 5px 0', fontSize: '18px' }}>
+                                            <Link to={`/instructor/courses/${course.id}`} style={{ textDecoration: 'none', color: '#111827' }}>
+                                                {course?.title || course?.name || 'Untitled Course'}
+                                            </Link>
+                                        </h3>
                                         <p style={{ margin: 0, color: '#2563eb', fontWeight: 'bold' }}>${course.price}</p>
                                     </div>
                                 </div>
