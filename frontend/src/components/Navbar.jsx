@@ -27,7 +27,7 @@ export default function Navbar() {
 
                 {/* Render My courses only if the user is Authenticated */}
                 {user && (
-                    <Link to='/my-learning' style={styles.link}>My Learning</Link>
+                    user.is_instructor ? <Link to='/instructor' style={styles.link}>My Courses</Link> : <Link to='/my-learning' style={styles.link}>My Learning</Link>
                 )}
             </div>
 

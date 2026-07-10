@@ -68,6 +68,24 @@ export default function CourseManager() {
         }
     };
 
+    const handleDeleteModule = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            await api.delete(`/courses/api/modules/${e.target.value}/`);
+            const courseData = await getCourseData();
+            setCourse(courseData);
+
+        } catch (err) {
+            console.error("Unable to delete the Module", err);
+            // alert("Could not delete the module. Check console to fix.")
+
+        } finally {
+            setLoading(false);
+        }
+    };
+
     if (pageLoading) {
         return <div style={{ maxWidth: '800px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif' }}>Loading course manager...</div>;
     }
@@ -117,9 +135,12 @@ export default function CourseManager() {
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                         {course.modules.map((mod, index) => (
-                            <div key={mod.id} style={{ padding: '15px', backgroundColor: 'white', border: '1px solid #e0e0e0', borderRadius: '4px', display: 'flex', justifyContent: 'space-between' }}>
+                            <div key={mod.id} style={{ padding: '15px', backgroundColor: 'white', border: '1px solid #e0e0e0', borderRadius: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <strong>{index + 1}. {mod.title}</strong>
                                 <span style={{ color: '#9ca3af', fontSize: '14px' }}>Empty Module (Lessons coming in Prod!)</span>
+                                <button onClick={handleDeleteModule} value={mod.id} style={{ backgroundColor: '#eb2525', color: 'white', border: 'none', padding: '10px 20px', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 'bold' }}>
+                                    {loading ? 'Deleting' : 'Delete'}
+                                </button>
                             </div>
                         ))}
                     </div>
