@@ -12,116 +12,41 @@ export default function Navbar() {
     };
 
     return (
-        <nav style={styles.navbar}>
+        <nav className="bg-white shadow-md px-8 py-4 flex justify-between items-center sticky top-0 z-50" >
             {/* Left Section */}
-            <div>
-                <Link to="/" style={styles.logo}>
-                    <span style={styles.logoIcon}>📖</span> LearnIT
+            <div className="flex items-center gap-2" >
+                <span className="text-2xl" >📖</span>
+                <Link to="/" className="text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors" >
+                    LearnIT
                 </Link>
             </div>
 
             {/* Middle Section */}
-            <div style={styles.navLinks}>
-                <Link to='/' style={styles.link}>Home</Link>
-                <Link to='/courses' style={styles.link}>Courses</Link>
+            <div className="hidden md:flex gap-6 font-small text-gray-600" >
+                <Link to='/' className="hover:text-blue-600 transition-colors" >Home</Link>
+                <Link to='/courses' className="hover:text-blue-600 transition-colors" >Courses</Link>
 
                 {/* Render My courses only if the user is Authenticated */}
                 {user && (
-                    user.is_instructor ? <Link to='/instructor' style={styles.link}>My Courses</Link> : <Link to='/my-learning' style={styles.link}>My Learning</Link>
+                    user.is_instructor ? <Link to='/instructor' className="hover:text-blue-600 transition-colors" >My Courses</Link> : <Link to='/my-learning' className="hover:text-blue-600 transition-colors" >My Learning</Link>
                 )}
             </div>
 
             {/* Authentication Section */}
-            <div style={styles.rightSection}>
-                <button style={styles.upgradeBtn}>Upgrade</button>
+            <div className="flex items-center gap-4" >
+                {/* <button className="" >Upgrade</button> */}
                 {user ? (
-                    <div style={styles.profileSection}>
-                        <div style={styles.profileIcon} title={`Logged in as ${user.username}`}>
-                            👤
-                        </div>
-                        <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
+                    <div className="flex items-center gap-3" >
+                        <span className="bg-gray-100 p-2 rounded-full text-gray-600">👤</span>
+                        <button onClick={handleLogout} className="text-red-500 font-medium hover:text-red-700 transition-colors border border-red-200 px-4 py-1 rounded-md hover:bg-red-50" >Logout</button>
                     </div>
                 ) : (
-                    <Link to='/login' style={styles.loginBtn}>Login</Link>
+                    <>
+                        <Link to='/register' className="bg-blue-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-blue-700 transition-colors" >Sign Up</Link>
+                        <Link to='/login' className="text-gray-600 font-medium hover:text-blue-600 transitions-colors" >Login</Link>
+                    </>
                 )}
             </div>
         </nav>
     );
 }
-
-const styles = {
-    navbar: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '15px 40px',
-        backgroundColor: '#ffffff',
-        borderBottom: '1px solid #e0e0e0',
-        fontFamily: 'sans-serif'
-    },
-    logo: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        fontSize: '22px',
-        fontWeight: 'bold',
-        textDecoration: 'none',
-        color: '#1a1a1a'
-    },
-    logoIcon: {
-        color: '#0056b3',
-        fontSize: '26px'
-    },
-    navLinks: {
-        display: 'flex',
-        gap: '30px'
-    },
-    link: {
-        textDecoration: 'none',
-        color: '#555',
-        fontSize: '16px',
-        fontWeight: '500'
-    },
-    rightSection: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '20px'
-    },
-    upgradeBtn: {
-        backgroundColor: '#2563eb', // Figma blue
-        color: 'white',
-        border: 'none',
-        padding: '8px 20px',
-        borderRadius: '20px',
-        fontSize: '14px',
-        fontWeight: 'bold',
-        cursor: 'pointer'
-    },
-    profileSection: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '15px'
-    },
-    profileIcon: {
-        backgroundColor: '#f3f4f6',
-        padding: '8px',
-        borderRadius: '50%',
-        fontSize: '16px',
-        cursor: 'pointer'
-    },
-    logoutBtn: {
-        backgroundColor: 'transparent',
-        border: '1px solid #dc2626',
-        color: '#dc2626',
-        padding: '6px 15px',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        fontSize: '14px'
-    },
-    loginBtn: {
-        textDecoration: 'none',
-        color: '#2563eb',
-        fontWeight: 'bold',
-        fontSize: '15px'
-    }
-};

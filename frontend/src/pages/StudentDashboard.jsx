@@ -19,20 +19,20 @@ export default function StudentDashboard() {
     }, []);
 
     return (
-        <div>
-            <h2>My Learnings</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+        <div className="mx-auto max-w-6xl px-5 py-8">
+            <h2 className="mb-6 text-3xl font-bold text-slate-900">My Learnings</h2>
+            {error && <p className="text-red-600">{error}</p>}
 
             {myCourses.map((enrollment) =>
-                <div key={enrollment.id} style={{ border: '1px solid black', margin: '10px', padding: '20px', borderRadius: '8px' }}>
-                    <h3>{ enrollment.course_title }</h3>
-                    <p>{ enrollment.course_description }</p>
+                <div key={enrollment.id} className="my-3 rounded-lg border border-slate-900 p-5">
+                    <h3 className="mb-2 text-xl font-semibold text-slate-900">{ enrollment.course_title }</h3>
+                    <p className="text-slate-700">{ enrollment.course_description }</p>
                     
-                    <p style={{ color: 'gray', fontSize: '14px' }}>
+                    <p className="mt-4 text-sm text-slate-500">
                         Enrolled on: {new Date(enrollment.enroll_date).toLocaleDateString()}
                     </p>
                     
-                    <button style={{ marginTop: '10px', padding: '8px 16px', backgroundColor: '#0056b3', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                    <button className="mt-3 rounded bg-blue-700 px-4 py-2 text-white transition hover:bg-blue-800">
                         Continue Learning
                     </button>
                 </div>

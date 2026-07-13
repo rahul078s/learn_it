@@ -84,40 +84,40 @@ export default function InstructorDashboard() {
     };
 
     return (
-        <div style={{ maxWidth: '1200px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif' }}>
-            <h1 style={{ fontSize: '32px', marginBottom: '10px' }}>Instructor Dashboard</h1>
-            <p style={{ color: '#555', marginBottom: '40px' }}>Welcome to the LearnIT creation hub. Build and manage your courses here.</p>
+        <div className="mx-auto my-10 max-w-6xl px-5 font-sans">
+            <h1 className="mb-3 text-3xl font-bold text-slate-900">Instructor Dashboard</h1>
+            <p className="mb-10 text-slate-600">Welcome to the LearnIT creation hub. Build and manage your courses here.</p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
+            <div className="grid gap-10 lg:grid-cols-2">
 
                 {/* LEFT COLUMN: THE CREATION FORM */}
-                <div style={{ backgroundColor: '#ffffff', padding: '30px', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
-                    <h2 style={{ marginBottom: '20px' }}>Create New Course</h2>
+                <div className="rounded-lg border border-slate-200 bg-white p-8">
+                    <h2 className="mb-5 text-2xl font-semibold text-slate-900">Create New Course</h2>
 
-                    {error && <div style={{ backgroundColor: '#fee2e2', color: '#dc2626', padding: '10px', borderRadius: '4px', marginBottom: '15px' }}>{error}</div>}
+                    {error && <div className="mb-4 rounded bg-red-100 p-3 text-red-600">{error}</div>}
 
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                         <div>
-                            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Course Title</label>
-                            <input type="text" name="title" value={formData.title} onChange={handleTextChange} required style={{ width: '100%', padding: '10px', boxSizing: 'border-box' }} />
+                            <label className="mb-1 block font-bold text-slate-900">Course Title</label>
+                            <input type="text" name="title" value={formData.title} onChange={handleTextChange} required className="w-full rounded border border-slate-300 px-3 py-2" />
                         </div>
 
                         <div>
-                            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Description</label>
-                            <textarea name="description" value={formData.description} onChange={handleTextChange} required rows="4" style={{ width: '100%', padding: '10px', boxSizing: 'border-box' }}></textarea>
+                            <label className="mb-1 block font-bold text-slate-900">Description</label>
+                            <textarea name="description" value={formData.description} onChange={handleTextChange} required rows="4" className="w-full rounded border border-slate-300 px-3 py-2"></textarea>
                         </div>
 
                         <div>
-                            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Price ($)</label>
-                            <input type="number" name="price" value={formData.price} onChange={handleTextChange} required step="0.01" style={{ width: '100%', padding: '10px', boxSizing: 'border-box' }} />
+                            <label className="mb-1 block font-bold text-slate-900">Price ($)</label>
+                            <input type="number" name="price" value={formData.price} onChange={handleTextChange} required step="0.01" className="w-full rounded border border-slate-300 px-3 py-2" />
                         </div>
 
                         <div>
-                            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Course Thumbnail (Image)</label>
-                            <input type="file" id="thumbnail-upload" accept="image/*" onChange={handleFileChange} style={{ width: '100%', padding: '10px 0' }} />
+                            <label className="mb-1 block font-bold text-slate-900">Course Thumbnail (Image)</label>
+                            <input type="file" id="thumbnail-upload" accept="image/*" onChange={handleFileChange} className="w-full py-3" />
                         </div>
 
-                        <button type="submit" disabled={loading} style={{ backgroundColor: '#2563eb', color: 'white', border: 'none', padding: '15px', borderRadius: '4px', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 'bold', marginTop: '10px' }}>
+                        <button type="submit" disabled={loading} className="mt-3 rounded bg-blue-600 p-4 font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70">
                             {loading ? 'Publishing Course...' : 'Publish Course'}
                         </button>
                     </form>
@@ -125,28 +125,28 @@ export default function InstructorDashboard() {
 
                 {/* RIGHT COLUMN: MY PUBLISHED COURSES */}
                 <div>
-                    <h2 style={{ marginBottom: '20px' }}>My Published Courses</h2>
+                    <h2 className="mb-5 text-2xl font-semibold text-slate-900">My Published Courses</h2>
 
                     {myCourses.length === 0 ? (
-                        <div style={{ padding: '40px', backgroundColor: '#f8fafc', borderRadius: '8px', textAlign: 'center', color: '#9ca3af' }}>
+                        <div className="rounded-lg bg-slate-50 p-10 text-center text-slate-400">
                             You haven't published any courses yet.
                         </div>
                     ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                        <div className="flex flex-col gap-4">
                             {myCourses.map(course => (
-                                <div key={course.id} style={{ display: 'flex', gap: '15px', padding: '15px', backgroundColor: 'white', border: '1px solid #e0e0e0', borderRadius: '8px', alignItems: 'center' }}>
+                                <div key={course.id} className="flex items-center gap-4 rounded-lg border border-slate-200 bg-white p-4">
                                     {course.thumbnail ? (
-                                        <img src={course.thumbnail} alt="thumbnail" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '4px' }} />
+                                        <img src={course.thumbnail} alt="thumbnail" className="h-20 w-20 rounded bg-slate-950 object-contain" />
                                     ) : (
-                                        <div style={{ width: '80px', height: '80px', backgroundColor: '#f3f4f6', borderRadius: '4px' }}></div>
+                                        <div className="h-20 w-20 rounded bg-slate-100"></div>
                                     )}
                                     <div>
-                                        <h3 style={{ margin: '0 0 5px 0', fontSize: '18px' }}>
-                                            <Link to={`/instructor/courses/${course.id}`} style={{ textDecoration: 'none', color: '#111827' }}>
+                                        <h3 className="mb-1 text-lg font-semibold text-slate-900">
+                                            <Link to={`/instructor/courses/${course.id}`} className="hover:text-blue-600">
                                                 {course?.title || course?.name || 'Untitled Course'}
                                             </Link>
                                         </h3>
-                                        <p style={{ margin: 0, color: '#2563eb', fontWeight: 'bold' }}>${course.price}</p>
+                                        <p className="font-bold text-blue-600">${course.price}</p>
                                     </div>
                                 </div>
                             ))}

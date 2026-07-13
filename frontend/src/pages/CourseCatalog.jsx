@@ -28,39 +28,39 @@ export default function CourseCatalog() {
     }, []);
 
     return (
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
-            <h1 style={{ marginBottom: '10px' }}>Discover Your Next Skill</h1>
-            <p style={{ color: 'gray', marginBottom: '30px' }}>Browse our complete list of courses.</p>
+        <div className="mx-auto max-w-6xl px-5 py-6">
+            <h1 className="mb-3 text-3xl font-bold text-slate-900">Discover Your Next Skill</h1>
+            <p className="mb-8 text-slate-500">Browse our complete list of courses.</p>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p className="text-red-600">{error}</p>}
             {loading && <p>Loading coureses...</p>}
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {courses.map((course) => (
-                    <div key={course.id} style={{ border: '1px solid #e0e0e0', borderRadius: '8px', padding: '20px', backgroundColor: 'white' }}>
+                    <div key={course.id} className="rounded-lg border border-slate-200 bg-white p-5">
                         {course.thumbnail ? (
                             <img 
                                 src={course.thumbnail} 
                                 alt={course.title} 
-                                style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '4px', marginBottom: '15px' }} 
+                                className="mb-4 aspect-video w-full rounded bg-slate-950 object-contain" 
                             />
                         ) : (
                             // Fallback if the instructor hasn't uploaded a thumbnail yet
-                            <div style={{ height: '150px', backgroundColor: '#f3f4f6', borderRadius: '4px', marginBottom: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }}>
+                            <div className="mb-4 flex aspect-video w-full items-center justify-center rounded bg-slate-100 text-slate-400">
                                 No Image Available
                             </div>
                         )}
 
-                        <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', color: '#1a1a1a' }}>{course.name}</h3>
-                        <p style={{ color: '#555', fontSize: '14px', marginBottom: '15px', lineHeight: '1.5' }}>
+                        <h3 className="mb-3 text-lg font-semibold text-slate-950">{course.name}</h3>
+                        <p className="mb-4 text-sm leading-relaxed text-slate-600">
                             {course.description.substring(0, 100)}... {/* Truncate long descriptions */}
                         </p>
 
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <span style={{ fontWeight: 'bold', fontSize: '16px' }}>${course.price}</span>
+                        <div className="flex items-center justify-between gap-4">
+                            <span className="text-base font-bold text-slate-900">${course.price}</span>
                             <button
                                 onClick={() => navigate(`/courses/${course.id}`)}
-                                style={{ backgroundColor: '#2563eb', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+                                className="rounded bg-blue-600 px-4 py-2 font-bold text-white transition hover:bg-blue-700">
                                 View Details
                             </button>
                         </div>

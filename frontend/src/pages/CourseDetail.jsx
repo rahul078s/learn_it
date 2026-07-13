@@ -43,15 +43,15 @@ export default function CourseDetail() {
         }
     };
 
-    if (loading) return <div style={{ padding: '40px' }}>Loading course details...</div>;
-    if (error) return <div style={{ padding: '40px', color: 'red' }}>{error}</div>;
-    if (!course) return <div style={{ padding: '40px' }}>Course not found.</div>;
+    if (loading) return <div className="p-10">Loading course details...</div>;
+    if (error) return <div className="p-10 text-red-600">{error}</div>;
+    if (!course) return <div className="p-10">Course not found.</div>;
 
     return (
-        <div style={{ maxWidth: '800px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif' }}>
+        <div className="mx-auto my-10 max-w-3xl px-5 font-sans">
             <button 
                 onClick={() => navigate('/courses')}
-                style={{ background: 'none', border: 'none', color: '#2563eb', cursor: 'pointer', marginBottom: '20px', padding: 0 }}
+                className="mb-5 p-0 text-blue-600 hover:text-blue-700"
             >
                 ← Back to Catalog
             </button>
@@ -60,27 +60,27 @@ export default function CourseDetail() {
                 <img 
                     src={course.thumbnail} 
                     alt={course.title} 
-                    style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '8px', marginBottom: '20px' }} 
+                    className="mb-5 aspect-video w-full rounded-lg bg-slate-950 object-contain" 
                 />
             ) : (
-                <div style={{ backgroundColor: '#f3f4f6', height: '300px', borderRadius: '8px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }}>
+                <div className="mb-5 flex aspect-video w-full items-center justify-center rounded-lg bg-slate-100 text-slate-400">
                     No Image Available
                 </div>
             )}
 
-            <h1 style={{ fontSize: '32px', marginBottom: '10px' }}>{course.title}</h1>
-            <p style={{ fontSize: '20px', fontWeight: 'bold', color: '#2563eb', marginBottom: '20px' }}>
+            <h1 className="mb-3 text-3xl font-bold text-slate-900">{course.title}</h1>
+            <p className="mb-5 text-xl font-bold text-blue-600">
                 ${course.price}
             </p>
 
-            <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #e0e0e0', marginBottom: '30px', lineHeight: '1.6' }}>
-                <h3>About This Course</h3>
+            <div className="mb-8 rounded-lg border border-slate-200 bg-white p-5 leading-relaxed">
+                <h3 className="mb-2 text-xl font-semibold text-slate-900">About This Course</h3>
                 <p>{course.description}</p>
             </div>
 
             <button 
                 onClick={handleEnroll}
-                style={{ backgroundColor: '#2563eb', color: 'white', border: 'none', padding: '15px 30px', fontSize: '18px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', width: '100%' }}
+                className="w-full rounded-lg bg-blue-600 px-8 py-4 text-lg font-bold text-white transition hover:bg-blue-700"
             >
                 Enroll in Course
             </button>

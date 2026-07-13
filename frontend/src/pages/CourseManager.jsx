@@ -87,38 +87,38 @@ export default function CourseManager() {
     };
 
     if (pageLoading) {
-        return <div style={{ maxWidth: '800px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif' }}>Loading course manager...</div>;
+        return <div className="mx-auto my-10 max-w-3xl px-5 font-sans">Loading course manager...</div>;
     }
 
     if (error || !course) {
-        return <div style={{ maxWidth: '800px', margin: '40px auto', padding: '20px', color: 'red', fontFamily: 'sans-serif' }}>{error || 'Course not found.'}</div>;
+        return <div className="mx-auto my-10 max-w-3xl px-5 font-sans text-red-600">{error || 'Course not found.'}</div>;
     }
 
     return (
-        <div style={{ maxWidth: '800px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif' }}>
+        <div className="mx-auto my-10 max-w-3xl px-5 font-sans">
             
-            <Link to="/instructor" style={{ color: '#2563eb', textDecoration: 'none', marginBottom: '20px', display: 'inline-block' }}>
+            <Link to="/instructor" className="mb-5 inline-block text-blue-600 hover:text-blue-700">
                 &larr; Back to Dashboard
             </Link>
 
-            <div style={{ padding: '20px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '30px' }}>
-                <h1 style={{ margin: '0 0 10px 0' }}>{course.title || course.name}</h1>
-                <p style={{ margin: 0, color: '#64748b' }}>Curriculum Manager</p>
+            <div className="mb-8 rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <h1 className="mb-3 text-3xl font-bold text-slate-900">{course.title || course.name}</h1>
+                <p className="text-slate-500">Curriculum Manager</p>
             </div>
 
             {/* MODULE CREATION FORM */}
-            <div style={{ padding: '20px', backgroundColor: 'white', border: '1px solid #e0e0e0', borderRadius: '8px', marginBottom: '30px' }}>
-                <h3 style={{ marginTop: 0 }}>Add New Module</h3>
-                <form onSubmit={handleAddModule} style={{ display: 'flex', gap: '10px' }}>
+            <div className="mb-8 rounded-lg border border-slate-200 bg-white p-5">
+                <h3 className="mb-4 text-xl font-semibold text-slate-900">Add New Module</h3>
+                <form onSubmit={handleAddModule} className="flex flex-col gap-3 sm:flex-row">
                     <input 
                         type="text" 
                         value={moduleTitle} 
                         onChange={(e) => setModuleTitle(e.target.value)} 
                         placeholder="e.g., Module 1: Introduction to Python" 
                         required 
-                        style={{ flex: 1, padding: '10px' }}
+                        className="flex-1 rounded border border-slate-300 px-3 py-2"
                     />
-                    <button type="submit" disabled={loading} style={{ backgroundColor: '#2563eb', color: 'white', border: 'none', padding: '10px 20px', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 'bold' }}>
+                    <button type="submit" disabled={loading} className="rounded bg-blue-600 px-5 py-2 font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70">
                         {loading ? 'Saving...' : '+ Add'}
                     </button>
                 </form>
@@ -126,19 +126,19 @@ export default function CourseManager() {
 
             {/* CURRICULUM LIST */}
             <div>
-                <h2 style={{ marginBottom: '15px' }}>Course Modules</h2>
+                <h2 className="mb-4 text-2xl font-semibold text-slate-900">Course Modules</h2>
                 
                 {!course.modules || course.modules.length === 0 ? (
-                    <div style={{ padding: '20px', textAlign: 'center', color: '#9ca3af', border: '1px dashed #ccc' }}>
+                    <div className="border border-dashed border-slate-300 p-5 text-center text-slate-400">
                         No modules created yet. Add one above!
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <div className="flex flex-col gap-3">
                         {course.modules.map((mod, index) => (
-                            <div key={mod.id} style={{ padding: '15px', backgroundColor: 'white', border: '1px solid #e0e0e0', borderRadius: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div key={mod.id} className="flex flex-col gap-3 rounded border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
                                 <strong>{index + 1}. {mod.title}</strong>
-                                <span style={{ color: '#9ca3af', fontSize: '14px' }}>Empty Module (Lessons coming in Prod!)</span>
-                                <button onClick={handleDeleteModule} value={mod.id} style={{ backgroundColor: '#eb2525', color: 'white', border: 'none', padding: '10px 20px', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 'bold' }}>
+                                <span className="text-sm text-slate-400">Empty Module (Lessons coming in Prod!)</span>
+                                <button onClick={handleDeleteModule} value={mod.id} className="rounded bg-red-600 px-5 py-2 font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-70">
                                     {loading ? 'Deleting' : 'Delete'}
                                 </button>
                             </div>

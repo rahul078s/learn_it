@@ -1,62 +1,69 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../context/AuthContext';
 
 export default function Home() {
-    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
 
     return (
-        <div style={{ fontFamily: 'sans-serif', color: '#1a1a1a' }}>
+        <div className="min-h-screen font-sans text-slate-950">
             
             {/* 1. HERO SECTION */}
-            <div style={{ backgroundColor: '#f8fafc', padding: '80px 20px', textAlign: 'center', borderBottom: '1px solid #e0e0e0' }}>
-                <h1 style={{ fontSize: '48px', margin: '0 0 20px 0', fontWeight: '900', color: '#0f172a' }}>
-                    Master New Skills, <span style={{ color: '#2563eb' }}>Anywhere.</span>
+            <div className="border-b border-slate-200 bg-slate-50 px-5 py-20 text-center">
+                <h1 className="mb-5 text-4xl font-black text-slate-900 sm:text-5xl">
+                    Master New Skills, <span className="text-blue-600">Anywhere.</span>
                 </h1>
-                <p style={{ fontSize: '20px', color: '#475569', maxWidth: '600px', margin: '0 auto 40px auto', lineHeight: '1.6' }}>
+                <p className="mx-auto mb-10 max-w-2xl text-xl leading-relaxed text-slate-600">
                     Join thousands of students learning from expert instructors. 
                     Build your portfolio, advance your career, and achieve your goals.
                 </p>
                 
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-                    <button 
-                        onClick={() => navigate('/courses')}
-                        style={{ backgroundColor: '#2563eb', color: 'white', border: 'none', padding: '15px 30px', fontSize: '18px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
-                    >
+                <div className="flex flex-wrap justify-center gap-5">
+                    <Link to="/courses" className="rounded-lg bg-blue-600 px-8 py-4 text-lg font-bold text-white transition hover:bg-blue-700">
                         Explore Courses
-                    </button>
-                    <button 
-                        onClick={() => navigate('/register')}
-                        style={{ backgroundColor: 'white', color: '#2563eb', border: '2px solid #2563eb', padding: '15px 30px', fontSize: '18px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
-                    >
-                        Start for Free
-                    </button>
+                    </Link>
+
+                    {!user ? (
+                        <Link to="/register" className="rounded-lg border-2 border-blue-600 bg-white px-8 py-4 text-lg font-bold text-blue-600 transition hover:bg-blue-50">
+                            Start for free
+                        </Link>
+                    ) : user.is_instructor ? (
+                        <Link to="/instructor" className="rounded-lg border-2 border-blue-600 bg-white px-8 py-4 text-lg font-bold text-blue-600 transition hover:bg-blue-50">
+                            Create a course
+                        </Link>
+                    ) : (
+                        <Link to="/my-learning" className="rounded-lg border-2 border-blue-600 bg-white px-8 py-4 text-lg font-bold text-blue-600 transition hover:bg-blue-50">
+                            Resume Learning
+                        </Link>
+                    )}
                 </div>
             </div>
 
             {/* 2. VALUE PROPOSITION SECTION */}
-            <div style={{ maxWidth: '1200px', margin: '60px auto', padding: '0 20px' }}>
-                <h2 style={{ textAlign: 'center', fontSize: '32px', marginBottom: '40px' }}>Why LearnIT?</h2>
+            <div className="mx-auto my-16 max-w-6xl px-5">
+                <h2 className="mb-10 text-center text-3xl font-bold text-slate-900">Why LearnIT?</h2>
                 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+                <div className="grid gap-8 md:grid-cols-3">
                     
                     {/* Feature 1 */}
-                    <div style={{ textAlign: 'center', padding: '20px' }}>
-                        <div style={{ fontSize: '40px', marginBottom: '15px' }}>🚀</div>
-                        <h3 style={{ fontSize: '22px', marginBottom: '10px' }}>Fast-Track Your Career</h3>
-                        <p style={{ color: '#555', lineHeight: '1.5' }}>Our courses are designed to get you hired. Learn practical, real-world skills that employers are actively looking for.</p>
+                    <div className="px-5 py-5 text-center">
+                        <div className="mb-4 text-4xl">🚀</div>
+                        <h3 className="mb-3 text-2xl font-semibold text-slate-900">Fast-Track Your Career</h3>
+                        <p className="leading-relaxed text-slate-600">Our courses are designed to get you hired. Learn practical, real-world skills that employers are actively looking for.</p>
                     </div>
 
                     {/* Feature 2 */}
-                    <div style={{ textAlign: 'center', padding: '20px' }}>
-                        <div style={{ fontSize: '40px', marginBottom: '15px' }}>👨‍🏫</div>
-                        <h3 style={{ fontSize: '22px', marginBottom: '10px' }}>Expert Instructors</h3>
-                        <p style={{ color: '#555', lineHeight: '1.5' }}>Learn directly from industry professionals who have spent years mastering their craft in the real world.</p>
+                    <div className="px-5 py-5 text-center">
+                        <div className="mb-4 text-4xl">👨‍🏫</div>
+                        <h3 className="mb-3 text-2xl font-semibold text-slate-900">Expert Instructors</h3>
+                        <p className="leading-relaxed text-slate-600">Learn directly from industry professionals who have spent years mastering their craft in the real world.</p>
                     </div>
 
                     {/* Feature 3 */}
-                    <div style={{ textAlign: 'center', padding: '20px' }}>
-                        <div style={{ fontSize: '40px', marginBottom: '15px' }}>♾️</div>
-                        <h3 style={{ fontSize: '22px', marginBottom: '10px' }}>Lifetime Access</h3>
-                        <p style={{ color: '#555', lineHeight: '1.5' }}>Enroll once and learn at your own pace. You get lifetime access to the course materials and all future updates.</p>
+                    <div className="px-5 py-5 text-center">
+                        <div className="mb-4 text-4xl">♾️</div>
+                        <h3 className="mb-3 text-2xl font-semibold text-slate-900">Lifetime Access</h3>
+                        <p className="leading-relaxed text-slate-600">Enroll once and learn at your own pace. You get lifetime access to the course materials and all future updates.</p>
                     </div>
 
                 </div>
