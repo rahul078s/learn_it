@@ -1,29 +1,30 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import { jwtDecode } from 'jwt-decode';
 import api from '../api/axios';
 
 // Blank context or the Global memory box
 const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+const getUserFromStoredToken = () => {
+    const token = localStorage.getItem('access_token');
 
-    useEffect(() => {
-        const token = localStorage.getItem('access_token');
-        if (token) {
-            try {
-                const decodedUser = jwtDecode(token);
-                setUser(decodedUser);
-            } catch (error) {
-                // If token is corrupted, remove it
-                console.error("Invalid token found");
-                localStorage.removeItem('access_token');
-                localStorage.removeItem('refresh_token');
-            }
-        }
-        setLoading(false);
-    }, []);
+    if (!token) {
+        return null;
+    }
+
+    try {
+        return jwtDecode(token);
+    } catch {
+        // If token is corrupted, remove it
+        console.error("Invalid token found");
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        return null;
+    }
+};
+
+export const AuthProvider = ({children}) => {
+    const [user, setUser] = useState(getUserFromStoredToken);
 
     // Login Functtion
     const login = async (username, password) => {
@@ -54,7 +55,7 @@ export const AuthProvider = ({children}) => {
 
     return (
         <AuthContext.Provider value={contextData}>
-            {loading ? <p>Loading ...</p> : children}
+            {children}
         </AuthContext.Provider>
     );
 };
