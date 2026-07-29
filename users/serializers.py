@@ -9,7 +9,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
-    # Define the pass fields so that they won't sent back in API response
+    # Define the pass as write_only fields so that they won't sent back in API response
     password = serializers.CharField(write_only=True)
     password_confirm = serializers.CharField(write_only=True)
     class Meta:
