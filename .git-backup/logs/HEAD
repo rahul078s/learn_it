@@ -1,0 +1,28 @@
+0000000000000000000000000000000000000000 76332dbb1bce307b72335eadd605187500407537 rahul078s <rahulsandhu527@gmail.com> 1778507726 +0000	clone: from https://github.com/rahul078s/learn_it.git
+76332dbb1bce307b72335eadd605187500407537 3b313aec9895b53201b0f26a445bb4460973b206 rahul078s <rahulsandhu527@gmail.com> 1778520407 +0000	commit: Project setup
+3b313aec9895b53201b0f26a445bb4460973b206 3b313aec9895b53201b0f26a445bb4460973b206 rahul078s <rahulsandhu527@gmail.com> 1778863495 +0000	checkout: moving from main to django-practice
+3b313aec9895b53201b0f26a445bb4460973b206 d8a60be882e9c53521835578cc4ac24c71790bba rahul078s <rahulsandhu527@gmail.com> 1778865505 +0000	commit: create users and courses app and config users as default auth app
+d8a60be882e9c53521835578cc4ac24c71790bba 3fa1110cb0b4368cb9b1d8e204e76786a7d6e665 rahul078s <rahulsandhu527@gmail.com> 1778866446 +0000	commit: add User as auth model and .env file security fix
+3fa1110cb0b4368cb9b1d8e204e76786a7d6e665 b7f741aee4fd2b00c3eedbe8180c6c114f4b535e rahul078s <rahulsandhu527@gmail.com> 1778872320 +0000	commit: Create Course and Enrollment model and register them to admin site
+b7f741aee4fd2b00c3eedbe8180c6c114f4b535e f3eb90e88b4886081703aa5b21849a87f72bbb66 rahul078s <rahulsandhu527@gmail.com> 1779103050 +0000	commit: Create home and detail view with teplates and also enroll view with login_required decorator
+f3eb90e88b4886081703aa5b21849a87f72bbb66 e31d85ece78d8289d418d2f6b7a5e25c70391d72 rahul078s <rahulsandhu527@gmail.com> 1779114245 +0000	commit: Configure urls for built-in Login and Logout view and use a base html to avoid hardoded html files
+e31d85ece78d8289d418d2f6b7a5e25c70391d72 2a06c832c42166cae93ca68933416c179ddd180d rahul078s <rahulsandhu527@gmail.com> 1779259009 +0000	commit: Extends base.html and create user registration
+2a06c832c42166cae93ca68933416c179ddd180d 82b7c2c525b0c3db336f09bca6ada82b888fa4cf rahul078s <rahulsandhu527@gmail.com> 1779451819 +0000	commit: Add a create course CBV and fix 'base.html' directory standard
+82b7c2c525b0c3db336f09bca6ada82b888fa4cf 9c3e9e819985f6cffde77ec6c0b3ecb347b86978 rahul078s <rahulsandhu527@gmail.com> 1779475477 +0000	commit: Add CourseUpdateView and CourseDeleteView
+9c3e9e819985f6cffde77ec6c0b3ecb347b86978 26597a2b10c1cf3689a1263847dad494973521f9 rahul078s <rahulsandhu527@gmail.com> 1779901858 +0000	commit: Create Student Dashboard, Fix enroll view to prevent race condition and fix login to enroll redirect page
+26597a2b10c1cf3689a1263847dad494973521f9 9fb3a536342f3ce7f58e41fa87ee64955a7df4c3 rahul078s <rahulsandhu527@gmail.com> 1779944503 +0000	commit: Add related_name field setting to foreign keys in Enrollment Model
+9fb3a536342f3ce7f58e41fa87ee64955a7df4c3 6c10ee3e3f1cbef8e3290f2fe348f979bce31774 rahul078s <rahulsandhu527@gmail.com> 1779979868 +0000	commit: Create instructor dashboard view, switched detailview to CBV and fix some error
+6c10ee3e3f1cbef8e3290f2fe348f979bce31774 b87ee6037d2598895d8e1e7119fb814cf445b65d rahul078s <rahulsandhu527@gmail.com> 1779984247 +0000	commit: Add total enrolled students count using annotate
+b87ee6037d2598895d8e1e7119fb814cf445b65d 4f6389487ee493d469614627b0a73ed0604807d0 rahul078s <rahulsandhu527@gmail.com> 1779986219 +0000	commit: Add a search course input
+4f6389487ee493d469614627b0a73ed0604807d0 4b250ff5ea6d334c651fa964c2e9cd2d4b90cb3d rahul078s <rahulsandhu527@gmail.com> 1780133580 +0000	commit: Create ModuleCreateView
+4b250ff5ea6d334c651fa964c2e9cd2d4b90cb3d 7086e8fa42143d01c85af54b4b71c998eefba64e rahul078s <rahulsandhu527@gmail.com> 1780206654 +0000	commit: Add LessonCreateView and fix some bugs
+7086e8fa42143d01c85af54b4b71c998eefba64e b514d291e7816af500992fa58d923d6738fb9ed2 rahul078s <rahulsandhu527@gmail.com> 1780421546 +0000	commit: Start DRF Web API and create first course serializer and use it in new api view
+b514d291e7816af500992fa58d923d6738fb9ed2 fba236ba63a73b948627fb3c5ef30583a95ffbc6 rahul078s <rahulsandhu527@gmail.com> 1780474906 +0000	commit: Add course detail api view with PUT and DELETE
+fba236ba63a73b948627fb3c5ef30583a95ffbc6 2060f3e643677c77c2884bc73e5cd0129d32d6ea rahul078s <rahulsandhu527@gmail.com> 1780655273 +0000	commit: Add enrollment erializer and view
+2060f3e643677c77c2884bc73e5cd0129d32d6ea 3b313aec9895b53201b0f26a445bb4460973b206 rahul078s <rahulsandhu527@gmail.com> 1780655370 +0000	checkout: moving from django-practice to main
+3b313aec9895b53201b0f26a445bb4460973b206 2060f3e643677c77c2884bc73e5cd0129d32d6ea rahul078s <rahulsandhu527@gmail.com> 1780655422 +0000	merge django-practice: Fast-forward
+2060f3e643677c77c2884bc73e5cd0129d32d6ea 2060f3e643677c77c2884bc73e5cd0129d32d6ea rahul078s <rahulsandhu527@gmail.com> 1780655670 +0000	checkout: moving from main to django-practice
+2060f3e643677c77c2884bc73e5cd0129d32d6ea ed5b19d6f4b8c6d1fe55d99711abf9723904303f rahul078s <rahulsandhu527@gmail.com> 1780728719 +0000	commit: Add nested serializers for Course, Module, Lesson
+ed5b19d6f4b8c6d1fe55d99711abf9723904303f 6eda9263bbdb3ed962c07530836288aa5b1f226e rahul078s <rahulsandhu527@gmail.com> 1780818148 +0000	commit: Add Module and Lesson API CRUD views
+6eda9263bbdb3ed962c07530836288aa5b1f226e 751a4fb3f4058aa560fdfce5fc680973a42d712f rahul078s <rahulsandhu527@gmail.com> 1780919007 +0000	commit: Add a register serializer, api view and global permisson classes
+751a4fb3f4058aa560fdfce5fc680973a42d712f 9cd5e412f37ae10a1aea6264947eee65bfe93094 rahul078s <rahulsandhu527@gmail.com> 1780932086 +0000	commit: Add custom permission
