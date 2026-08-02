@@ -20,12 +20,14 @@ from .serializers import CourseSerializer, EnrollmentSerializer, LessonSerialize
 
 from rest_framework.permissions import IsAuthenticated
 from .permissons import IsInstructorOrReadOnly
-from rest_framework import generics
+from rest_framework import filters, generics
 
 class CourseListCreateView(generics.ListCreateAPIView):
-    queryset = Course.objects.all()
+    queryset = Course.objects.all().order_by('id')
     serializer_class = CourseSerializer
     permission_classes = [IsInstructorOrReadOnly]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'description']
 
     def perform_create(self, serializer):
         serializer.save(instructor=self.request.user)

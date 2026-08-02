@@ -1,11 +1,12 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import '@tailwindplus/elements'
 
 export default function Navbar() {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [dropDownOpen, setDropDownOpen] = useState(false);
 
@@ -32,8 +33,29 @@ export default function Navbar() {
         };
     }, [dropDownOpen]);
 
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+        const searchQuery = String(formData.get('search') || '');
+        const trimmedQuery = searchQuery.trim();
+
+        if (trimmedQuery) {
+            navigate(`/courses?search=${encodeURIComponent(trimmedQuery)}`);
+            return;
+        }
+
+        navigate('/courses');
+    };
+
+    const dashboardLink = user?.is_instructor ? '/instructor' : '/my-learning';
+    const dashboardLabel = user?.is_instructor ? 'My Courses' : 'My Learning';
+    const courseSearchQuery = location.pathname === '/courses'
+        ? new URLSearchParams(location.search).get('search') || ''
+        : '';
+
     return (
-        <nav className="sticky top-0 z-50 flex items-center justify-between bg-white px-8 py-4 shadow-md transition-colors dark:bg-slate-900 dark:shadow-slate-950/40" >
+        <nav className="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-4 bg-white px-5 py-4 shadow-md transition-colors dark:bg-slate-900 dark:shadow-slate-950/40 md:px-8" >
             {/* Left Section */}
             <div className="flex items-center gap-2" >
                 <span className="text-2xl" >📖</span>
@@ -49,9 +71,28 @@ export default function Navbar() {
 
                 {/* Render My courses only if the user is Authenticated */}
                 {user && (
-                    user.is_instructor ? <Link to='/instructor' className="transition-colors hover:text-blue-600 dark:hover:text-blue-400" >My Courses</Link> : <Link to='/my-learning' className="transition-colors hover:text-blue-600 dark:hover:text-blue-400" >My Learning</Link>
+                    <Link to={dashboardLink} className="transition-colors hover:text-blue-600 dark:hover:text-blue-400" >{dashboardLabel}</Link>
                 )}
             </div>
+
+            {/* Search Section */}
+            <form onSubmit={handleSearchSubmit} className="order-3 flex w-full items-center rounded-lg border border-slate-300 bg-white px-3 py-2 transition focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-100 dark:border-slate-700 dark:bg-slate-950 dark:focus-within:border-blue-400 dark:focus-within:ring-blue-950 md:order-none md:max-w-md md:flex-1">
+                <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-5 w-5 shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m21 21-4.35-4.35m1.1-5.4a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+                </svg>
+                <input
+                    key={`${location.pathname}-${location.search}`}
+                    type="search"
+                    name="search"
+                    defaultValue={courseSearchQuery}
+                    placeholder="Search courses"
+                    aria-label="Search courses"
+                    className="min-w-0 flex-1 bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-white"
+                />
+                <button type="submit" className="ml-2 rounded-md bg-blue-600 px-3 py-1.5 text-sm font-bold text-white transition hover:bg-blue-700">
+                    Search
+                </button>
+            </form>
 
             {/* Authentication Section */}
             <div className="flex items-center gap-4" >
@@ -68,7 +109,7 @@ export default function Navbar() {
                             <div className="focus:outline-hidden absolute right-0 z-10 mt-2 w-50 origin-top-right rounded-xl bg-white px-3 py-2 shadow-lg ring-1 ring-black/5 dark:bg-slate-900 dark:ring-white/10">
                                 <div className="flex flex-col gap-1 ">
                                     <div className="flex transtion-all">
-                                        <Link to="/my-learning" onClick={() => setDropDownOpen(false)} className="w-full rounded-md px-2 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-gray-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white">My Learnings</Link>
+                                        <Link to={dashboardLink} onClick={() => setDropDownOpen(false)} className="w-full rounded-md px-2 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-gray-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white">{dashboardLabel}</Link>
                                     </div>
                                     <div className="flex transtion-all">
                                         <Link to="/account-settings" onClick={() => setDropDownOpen(false)} className="w-full rounded-md px-2 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-gray-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white">Settings</Link>

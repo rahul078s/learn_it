@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../api/axios";
 
 export default function CourseCatalog() {
@@ -7,33 +7,64 @@ export default function CourseCatalog() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const searchTerm = searchParams.get('search')?.trim() || '';
 
     useEffect(() => {
-        const fetchAllCourses = async () => {
-            try {
-                const response = await api.get('courses/api/courses');
+        let isMounted = true;
 
-                // If Django uses Pagination, the courses will be hidden in .results
-                if (response.data.results) {
-                    setCourses(response.data.results);
+        const fetchAllCourses = async () => {
+            setLoading(true);
+            setError('');
+
+            try {
+                const response = await api.get('/courses/api/courses/', {
+                    params: searchTerm ? { search: searchTerm } : {}
+                });
+
+                const courseList = response.data?.results || response.data || [];
+
+                if (isMounted) {
+                    setCourses(courseList);
                 }
             } catch (err) {
                 console.error("Failed to fetch courses", err);
-                setError("Could not fetch courses");
+
+                if (isMounted) {
+                    setError("Could not fetch courses");
+                    setCourses([]);
+                }
             } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
         };
+
         fetchAllCourses();
-    }, []);
+
+        return () => {
+            isMounted = false;
+        };
+    }, [searchTerm]);
 
     return (
         <div className="mx-auto max-w-6xl px-5 py-6">
-            <h1 className="mb-3 text-3xl font-bold text-slate-900">Discover Your Next Skill</h1>
-            <p className="mb-8 text-slate-500">Browse our complete list of courses.</p>
+            <h1 className="mb-3 text-3xl font-bold text-slate-900">
+                {searchTerm ? `Search results for "${searchTerm}"` : 'Discover Your Next Skill'}
+            </h1>
+            <p className="mb-8 text-slate-500">
+                {searchTerm ? 'Courses matching your search across titles and descriptions.' : 'Browse our complete list of courses.'}
+            </p>
 
             {error && <p className="text-red-600">{error}</p>}
-            {loading && <p>Loading coureses...</p>}
+            {loading && <p>Loading courses...</p>}
+
+            {!loading && !error && courses.length === 0 && (
+                <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-slate-500">
+                    No courses found{searchTerm ? ` for "${searchTerm}"` : ''}.
+                </div>
+            )}
 
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {courses.map((course) => (
@@ -51,9 +82,9 @@ export default function CourseCatalog() {
                             </div>
                         )}
 
-                        <h3 className="mb-3 text-lg font-semibold text-slate-950">{course.name}</h3>
+                        <h3 className="mb-3 text-lg font-semibold text-slate-950">{course.title}</h3>
                         <p className="mb-4 text-sm leading-relaxed text-slate-600">
-                            {course.description.substring(0, 100)}... {/* Truncate long descriptions */}
+                            {(course.description || '').substring(0, 100)}... {/* Truncate long descriptions */}
                         </p>
 
                         <div className="flex items-center justify-between gap-4">
